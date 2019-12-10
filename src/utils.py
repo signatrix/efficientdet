@@ -120,35 +120,39 @@ def custom_collate_fn(batch):
 def get_efficientdet(efficient_backbone, num_classes):
     efficientnet = EfficientNet()
     efficientdet = EfficientDet(backbone_net=efficientnet, feature_net=BDFPN, num_classes=num_classes)
+    for m in efficientdet.modules():
+        if isinstance(m, nn.Conv2d):
+            nn.init.xavier_uniform(m.weight)
+            if m.bias is not None:
+                nn.init.constant_(m.bias, 0)
+        elif isinstance(m, nn.BatchNorm2d):
+            nn.init.constant_(m.weight, 1)
+            nn.init.constant_(m.bias, 0)
 
     for m in efficientdet.classifier.modules():
         if isinstance(m, nn.Conv2d):
-            nn.init.normal_(m.weight, mean=0, std=0.01)
-            # nn.init.xavier_uniform_(m.weight)
+            nn.init.normal(m.weight, mean=0, std=0.01)
             if m.bias is not None:
-                nn.init.constant_(m.bias, 0)
+                nn.init.constant(m.bias, 0)
 
     for m in efficientdet.regressor.modules():
         if isinstance(m, nn.Conv2d):
-            nn.init.normal_(m.weight, mean=0, std=0.01)
-            # nn.init.xavier_uniform_(m.weight)
+            nn.init.normal(m.weight, mean=0, std=0.01)
             if m.bias is not None:
-                nn.init.constant_(m.bias, 0)
+                nn.init.constant(m.bias, 0)
 
     pi = 0.01
     nn.init.constant_(efficientdet.classifier[-1].bias, -log((1-pi)/pi))
 
-
     return efficientdet
 
-
+def count_parameters(model):
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
 if __name__ == '__main__':
-    def count_parameters(model):
-        return sum(p.numel() for p in model.parameters() if p.requires_grad)
-    model = get_efficientdet(True, 5)
+    model = get_efficientdet(True, 20)
     print (count_parameters(model))
-    # dummy = torch.rand(2,3,512,512)
-    # a,b = model(dummy)
-    # print (a.shape)
-    # print (b.shape)
+    dummy = torch.rand(2,3,512,512)
+    a,b = model(dummy)
+    print (a.shape)
+    print (b.shape)
