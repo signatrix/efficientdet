@@ -1,5 +1,5 @@
 """
-@author: Viet Nguyen <nhviet1009@gmail.com>
+@author: Viet Nguyen <vn@signatrix.com>
 """
 import os
 import argparse
@@ -9,27 +9,27 @@ import torch.nn.functional as F
 from torch.utils.data import DataLoader, ConcatDataset
 from src.coco_dataset import COCODataset
 from src.utils import get_efficientdet
+from src.optimizer import Ranger
 from src.focal_loss import FocalLoss
 from tensorboardX import SummaryWriter
 import shutil
+from tqdm.autonotebook import tqdm
 
 
 def get_args():
     parser = argparse.ArgumentParser("EfficientDet: Scalable and Efficient Object Detection implementation by Signatrix GmbH")
     parser.add_argument("--image_size", type=int, default=512, help="The common width and height for all images")
-    parser.add_argument("--batch_size", type=int, default=5, help="The number of images per batch")
-    parser.add_argument("--lr", type=float, default=1e-3)
-    parser.add_argument("--momentum", type=float, default=0.9)
-    parser.add_argument("--decay", type=float, default=1e-4)
+    parser.add_argument("--batch_size", type=int, default=6, help="The number of images per batch")
+    parser.add_argument("--lr", type=float, default=1e-4)
     parser.add_argument('--alpha', type=float, default=0.25)
-    parser.add_argument('--gamma', type=float, default=2.0)
+    parser.add_argument('--gamma', type=float, default=1.5)
     parser.add_argument("--num_epoches", type=int, default=100)
     parser.add_argument("--test_interval", type=int, default=1, help="Number of epoches between testing phases")
     parser.add_argument("--es_min_delta", type=float, default=0.0,
                         help="Early stopping's parameter: minimum change loss to qualify as an improvement")
     parser.add_argument("--es_patience", type=int, default=0,
                         help="Early stopping's parameter: number of epochs with no improvement after which training will be stopped. Set to 0 to disable this technique.")
-    parser.add_argument("--year", type=str, default="2014", choices=["2014", "2017"],
+    parser.add_argument("--year", type=str, default="2017", choices=["2014", "2017"],
                         help="The year of dataset (2014 or 2017)")
     parser.add_argument("--data_path", type=str, default="data/COCO", help="the root folder of dataset")
     parser.add_argument("--log_path", type=str, default="tensorboard/signatrix_efficientdet_coco")
@@ -40,20 +40,19 @@ def get_args():
 
 
 def train(opt):
+    num_gpus = 1
     if torch.cuda.is_available():
+        num_gpus = torch.cuda.device_count()
         torch.cuda.manual_seed(123)
     else:
         torch.manual_seed(123)
 
-    learning_rate_schedule = {"0": opt.lr, "5": opt.lr / 10,
-                              "10": opt.lr / 100}
-    
-    training_params = {"batch_size": opt.batch_size,
+    training_params = {"batch_size": opt.batch_size * num_gpus,
                        "shuffle": True,
                        "drop_last": True,
                        "num_workers": 12}
 
-    test_params = {"batch_size": opt.batch_size,
+    test_params = {"batch_size": opt.batch_size * num_gpus,
                    "shuffle": False,
                    "drop_last": False,
                    "num_workers": 12}
@@ -82,24 +81,25 @@ def train(opt):
     os.makedirs(log_path)
     writer = SummaryWriter(log_path)
     if torch.cuda.is_available():
-        writer.add_graph(model.cpu(), torch.rand(opt.batch_size, 3, opt.image_size, opt.image_size))
+        model = model.cuda()
         model = nn.DataParallel(model)
-        model.cuda()
-    else:
-        writer.add_graph(model, torch.rand(opt.batch_size, 3, opt.image_size, opt.image_size))
 
-    optimizer = torch.optim.SGD(filter(lambda p: p.requires_grad, model.parameters()), opt.lr, momentum=opt.momentum,
-                                weight_decay=opt.decay)
+    optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, model.parameters()), opt.lr)
+    # optimizer = torch.optim.SGD(filter(lambda p: p.requires_grad, model.parameters()), lr=0.08, momentum=0.9, weight_decay=4e-5)
+    # optimizer = Ranger(model.parameters())
+    # scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lambda x: 1)
+
     criterion = FocalLoss(opt.alpha, opt.gamma, training_set.num_classes)
     best_loss = 1e5
     best_epoch = 0
     model.train()
     num_iter_per_epoch = len(training_generator)
+
     for epoch in range(opt.num_epoches):
-        if str(epoch) in learning_rate_schedule.keys():
-            for param_group in optimizer.param_groups:
-                param_group['lr'] = learning_rate_schedule[str(epoch)]
-        for iter, batch in enumerate(training_generator):
+        progress_bar = tqdm(training_generator)
+        for iter, batch in enumerate(progress_bar):
+            # if iter == 50:
+            #     break
             images, gt_loc, gt_cls = batch
             if torch.cuda.is_available():
                 images = images.cuda()
@@ -111,6 +111,7 @@ def train(opt):
             if num_pos_boxes == 0:
                 print("There are no positive boxes")
                 continue
+            # scheduler.step()
             optimizer.zero_grad()
             pred_loc, pred_cls = model(images)
             mask = pos_boxes.unsqueeze(2).expand_as(pred_loc)
@@ -125,7 +126,7 @@ def train(opt):
             loss = loc_loss + focal_loss
             loss.backward()
             optimizer.step()
-            print(
+            progress_bar.set_description(
                 "Epoch: {}/{}, Iteration: {}/{}, Lr: {}, Loss:{} (Loc_loss:{} Cls_loss (focal loss):{})".format(
                     epoch + 1,
                     opt.num_epoches,
@@ -190,7 +191,8 @@ def train(opt):
             if loss_ls + opt.es_min_delta < best_loss:
                 best_loss = loss_ls
                 best_epoch = epoch
-                torch.save(model, opt.saved_path + os.sep + "signatrix_efficientdet_coco.pth")
+                torch.save(model, os.path.join(opt.saved_path, "signatrix_efficientdet_coco.pth"))
+
             # Early stopping
             if epoch - best_epoch > opt.es_patience > 0:
                 print("Stop training at epoch {}. The lowest loss achieved is {}".format(epoch, loss_ls))

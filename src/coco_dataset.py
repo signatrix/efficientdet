@@ -1,5 +1,5 @@
 """
-@author: Viet Nguyen <nhviet1009@gmail.com>
+@author: Viet Nguyen <vn@signatrix.com>
 """
 import os
 from torch.utils.data import Dataset
