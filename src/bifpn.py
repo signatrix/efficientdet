@@ -5,39 +5,31 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+class ConvBlock(nn.Module):
+    def __init__(self, num_channels):
+        super(ConvBlock, self).__init__()
+        self.conv = nn.Sequential(
+        nn.Conv2d(num_channels, num_channels, kernel_size=1, stride=1, padding=0, groups=num_channels),
+        nn.Conv2d(num_channels, num_channels, kernel_size=1, stride=1, padding=0),
+        nn.BatchNorm2d(num_features=num_channels, momentum=0.9997, eps=4e-5), nn.ReLU())
+
+    def forward(self, input):
+        return self.conv(input)
 
 class BiFPN(nn.Module):
     def __init__(self, num_channels, epsilon=1e-4):
         super(BiFPN, self).__init__()
         self.epsilon = epsilon
         # Conv layers
-        self.conv7_up = nn.Sequential(
-            nn.Conv2d(num_channels, num_channels, kernel_size=3, stride=1, padding=1, groups=num_channels),
-            nn.BatchNorm2d(num_features=num_channels, momentum=0.9997, eps=4e-5), nn.ReLU())
-        self.conv6_up = nn.Sequential(
-            nn.Conv2d(num_channels, num_channels, kernel_size=3, stride=1, padding=1, groups=num_channels),
-            nn.BatchNorm2d(num_features=num_channels, momentum=0.9997, eps=4e-5), nn.ReLU())
-        self.conv5_up = nn.Sequential(
-            nn.Conv2d(num_channels, num_channels, kernel_size=3, stride=1, padding=1, groups=num_channels),
-            nn.BatchNorm2d(num_features=num_channels, momentum=0.9997, eps=4e-5), nn.ReLU())
-        self.conv4_up = nn.Sequential(
-            nn.Conv2d(num_channels, num_channels, kernel_size=3, stride=1, padding=1, groups=num_channels),
-            nn.BatchNorm2d(num_features=num_channels, momentum=0.9997, eps=4e-5), nn.ReLU())
-        self.conv3_up = nn.Sequential(
-            nn.Conv2d(num_channels, num_channels, kernel_size=3, stride=1, padding=1, groups=num_channels),
-            nn.BatchNorm2d(num_features=num_channels, momentum=0.9997, eps=4e-5), nn.ReLU())
-        self.conv4_down = nn.Sequential(
-            nn.Conv2d(num_channels, num_channels, kernel_size=3, stride=1, padding=1, groups=num_channels),
-            nn.BatchNorm2d(num_features=num_channels, momentum=0.9997, eps=4e-5), nn.ReLU())
-        self.conv5_down = nn.Sequential(
-            nn.Conv2d(num_channels, num_channels, kernel_size=3, stride=1, padding=1, groups=num_channels),
-            nn.BatchNorm2d(num_features=num_channels, momentum=0.9997, eps=4e-5), nn.ReLU())
-        self.conv6_down = nn.Sequential(
-            nn.Conv2d(num_channels, num_channels, kernel_size=3, stride=1, padding=1, groups=num_channels),
-            nn.BatchNorm2d(num_features=num_channels, momentum=0.9997, eps=4e-5), nn.ReLU())
-        self.conv7_down = nn.Sequential(
-            nn.Conv2d(num_channels, num_channels, kernel_size=3, stride=1, padding=1, groups=num_channels),
-            nn.BatchNorm2d(num_features=num_channels, momentum=0.9997, eps=4e-5), nn.ReLU())
+        self.conv7_up = ConvBlock(num_channels)
+        self.conv6_up = ConvBlock(num_channels)
+        self.conv5_up = ConvBlock(num_channels)
+        self.conv4_up = ConvBlock(num_channels)
+        self.conv3_up = ConvBlock(num_channels)
+        self.conv4_down = ConvBlock(num_channels)
+        self.conv5_down = ConvBlock(num_channels)
+        self.conv6_down = ConvBlock(num_channels)
+        self.conv7_down = ConvBlock(num_channels)
 
         # Feature scaling layers
         self.p6_upsample = nn.Upsample(scale_factor=2, mode='nearest')
@@ -68,6 +60,8 @@ class BiFPN(nn.Module):
         self.p6_w2_relu = nn.ReLU()
         self.p7_w2 = nn.Parameter(torch.Tensor(2))
         self.p7_w2_relu = nn.ReLU()
+
+    # def create_block(self, num_channels):
 
     def forward(self, inputs):
         """
