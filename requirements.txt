@@ -1,0 +1,5 @@
+Cython
+efficientnet_pytorch
+geffnet
+tensorboardX
+pycocotools
