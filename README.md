@@ -15,7 +15,7 @@ With our code, you can:
 * **Train your model with our trained model**
 * **Evaluate test images/videos with either our trained model or yours**
 
-## Datasets:
+## Datasets
 
 
 | Dataset                | Classes |    #Train images      |    #Validation images      |
@@ -50,7 +50,7 @@ With our code, you can:
 * **Test your model for COCO dataset** by running **python test_dataset.py**
 * **Test your model for video** by running **python test_video.py**
 
-## Experiments:
+## Experiments
 
 We trained our model by using 3 NVIDIA GTX 1080. Below is mAP (mean average precision) for COCO val2017 dataset 
 
@@ -80,7 +80,7 @@ Some predictions are shown below:
 <img src="demo/7.jpg" width="280"> <img src="demo/8.jpg" width="280"> <img src="demo/9.jpg" width="280">
 
 
-## Requirements:
+## Requirements
 
 * **python 3.6**
 * **pytorch 0.4**
