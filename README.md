@@ -46,7 +46,7 @@ With our code, you can:
 
 ## Experiments
 
-We trained our model by using 3 NVIDIA GTX 1080. Below is mAP (mean average precision) for COCO val2017 dataset 
+We trained our model by using 3 NVIDIA GTX 1080Ti. Below is mAP (mean average precision) for COCO val2017 dataset 
 
 |   Average Precision   |   IoU=0.50:0.95   |   area=   all   |   maxDets=100   |   0.314   |
 |-----------------------|:-------------------:|:-----------------:|:-----------------:|:-------------:|
