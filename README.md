@@ -80,20 +80,10 @@ We trained our model by using 3 NVIDIA GTX 1080. Below is mAP (mean average prec
 
 ## Results
 
-Some output predictions for experiments for each dataset are shown below:
+Some predictions are shown below:
 
-- **VOC2007**
+<img src="demo/1.jpg" width="280"> <img src="demo/2.jpg" width="280"> <img src="demo/3.jpg" width="280">
 
-<img src="demo/voc2007_1.jpg" width="280"> <img src="demo/voc2007_2.jpg" width="280"> <img src="demo/voc2007_3.jpg" width="280">
+<img src="demo/4.jpg" width="280"> <img src="demo/5.jpg" width="280"> <img src="demo/6.jpg" width="280">
 
-- **VOC2012**
-
-<img src="demo/voc2012_1.jpg" width="280"> <img src="demo/voc2012_2.jpg" width="280"> <img src="demo/voc2012_3.jpg" width="280">
-
-- **COCO2014**
-
-<img src="demo/coco2014_1.jpg" width="280"> <img src="demo/coco2014_2.jpg" width="280"> <img src="demo/coco2014_3.jpg" width="280">
-
-- **COCO2014+2017**
-
-<img src="demo/coco2014_2017_1.jpg" width="280"> <img src="demo/coco2014_2017_2.jpg" width="280"> <img src="demo/coco2014_2017_3.jpg" width="280">
+<img src="demo/7.jpg" width="280"> <img src="demo/8.jpg" width="280"> <img src="demo/9.jpg" width="280">
