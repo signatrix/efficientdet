@@ -8,12 +8,6 @@ Here is our pytorch implementation of the model described in the paper **Efficie
   <i>An example of our model's output.</i>
 </p>
 
-## How to use our code
-
-With our code, you can:
-* **Train your model from scratch**
-* **Train your model with our trained model**
-* **Evaluate test images/videos with either our trained model or yours**
 
 ## Datasets
 
@@ -47,8 +41,8 @@ With our code, you can:
 
 * **Train your model** by running **python train.py**
 * **Evaluate mAP for COCO dataset** by running **python mAP_evaluation.py**
-* **Test your model for COCO dataset** by running **python test_dataset.py**
-* **Test your model for video** by running **python test_video.py**
+* **Test your model for COCO dataset** by running **python test_dataset.py --pretrained_model path/to/trained_model**
+* **Test your model for video** by running **python test_video.py --pretrained_model path/to/trained_model --input path/to/input/file --output path/to/output/file**
 
 ## Experiments
 
