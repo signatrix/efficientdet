@@ -8,11 +8,11 @@ Here is our pytorch implementation of the model described in the paper **Efficie
   <i>An example of our model's output.</i>
 </p>
 
-## How to use my code
+## How to use our code
 
 With our code, you can:
 * **Train your model from scratch**
-* **Train your model with my trained model**
+* **Train your model with our trained model**
 * **Evaluate test images/videos with either our trained model or yours**
 
 ## Requirements:
@@ -53,7 +53,7 @@ mkdir data
   
 ## How to use our code
 
-With my code, you can:
+With our code, you can:
 
 * **Train your model** by running **python train.py**
 * **Evaluate mAP for COCO dataset** by running **python mAP_evaluation.py**
