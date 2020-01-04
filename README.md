@@ -66,6 +66,8 @@ We trained our model by using 3 NVIDIA GTX 1080. Below is mAP (mean average prec
 
 |   Average Precision   |   IoU=0.50:0.95   |   area=   all   |   maxDets=100   |   0.314   |
 |-----------------------|:-------------------:|:-----------------:|:-----------------:|:-------------:|
+|   Average Precision   |      IoU=0.50     |   area=   all   |   maxDets=100   |   0.461   |
+|-----------------------|:-------------------:|:-----------------:|:-----------------:|:-------------:|
 
 ## Results
 
