@@ -15,16 +15,6 @@ With our code, you can:
 * **Train your model with our trained model**
 * **Evaluate test images/videos with either our trained model or yours**
 
-## Requirements:
-
-* **python 3.6**
-* **pytorch 0.4**
-* **opencv (cv2)**
-* **tensorboard**
-* **tensorboardX** (This library could be skipped if you do not use SummaryWriter)
-* **pycocotools**
-* **efficientnet_pytorch**
-
 ## Datasets:
 
 
@@ -78,6 +68,7 @@ We trained our model by using 3 NVIDIA GTX 1080. Below is mAP (mean average prec
 |     Average Recall    |   IoU=0.50:0.95   |   area= medium  |   maxDets=100   |   0.486   |
 |     Average Recall    |   IoU=0.50:0.95   |   area=  large  |   maxDets=100   |   0.625   |
 
+
 ## Results
 
 Some predictions are shown below:
@@ -87,3 +78,14 @@ Some predictions are shown below:
 <img src="demo/4.jpg" width="280"> <img src="demo/5.jpg" width="280"> <img src="demo/6.jpg" width="280">
 
 <img src="demo/7.jpg" width="280"> <img src="demo/8.jpg" width="280"> <img src="demo/9.jpg" width="280">
+
+
+## Requirements:
+
+* **python 3.6**
+* **pytorch 0.4**
+* **opencv (cv2)**
+* **tensorboard**
+* **tensorboardX** (This library could be skipped if you do not use SummaryWriter)
+* **pycocotools**
+* **efficientnet_pytorch**
