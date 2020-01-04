@@ -5,7 +5,7 @@
 Here is our pytorch implementation of the model described in the paper **EfficientDet: Scalable and Efficient Object Detection** [paper](https://arxiv.org/abs/1911.09070). 
 <p align="center">
   <img src="demo/video.gif"><br/>
-  <i>An example of my model's output.</i>
+  <i>An example of our model's output.</i>
 </p>
 
 ## How to use my code
@@ -67,25 +67,15 @@ We trained our model by using 3 NVIDIA GTX 1080. Below is mAP (mean average prec
 |   Average Precision   |   IoU=0.50:0.95   |   area=   all   |   maxDets=100   |   0.314   |
 |-----------------------|:-------------------:|:-----------------:|:-----------------:|:-------------:|
 |   Average Precision   |      IoU=0.50     |   area=   all   |   maxDets=100   |   0.461   |
-|-----------------------|:-------------------:|:-----------------:|:-----------------:|:-------------:|
 |   Average Precision   |      IoU=0.75     |   area=   all   |   maxDets=100   |   0.343   |
-|-----------------------|:-------------------:|:-----------------:|:-----------------:|:-------------:|
 |   Average Precision   |   IoU=0.50:0.95   |   area= small   |   maxDets=100   |   0.093   |
-|-----------------------|:-------------------:|:-----------------:|:-----------------:|:-------------:|
 |   Average Precision   |   IoU=0.50:0.95   |   area= medium  |   maxDets=100   |   0.358   |
-|-----------------------|:-------------------:|:-----------------:|:-----------------:|:-------------:|
 |   Average Precision   |   IoU=0.50:0.95   |   area=  large  |   maxDets=100   |   0.517   |
-|-----------------------|:-------------------:|:-----------------:|:-----------------:|:-------------:|
 |     Average Recall    |   IoU=0.50:0.95   |   area=   all   |   maxDets=1     |   0.268   |
-|-----------------------|:-------------------:|:-----------------:|:-----------------:|:-------------:|
-|     Average Recall    |   IoU=0.50:0.95   |   area=   all   |   maxDets=10   |   0.382   |
-|-----------------------|:-------------------:|:-----------------:|:-----------------:|:-------------:|
+|     Average Recall    |   IoU=0.50:0.95   |   area=   all   |   maxDets=10    |   0.382   |
 |     Average Recall    |   IoU=0.50:0.95   |   area=   all   |   maxDets=100   |   0.403   |
-|-----------------------|:-------------------:|:-----------------:|:-----------------:|:-------------:|
 |     Average Recall    |   IoU=0.50:0.95   |   area= small   |   maxDets=100   |   0.117   |
-|-----------------------|:-------------------:|:-----------------:|:-----------------:|:-------------:|
 |     Average Recall    |   IoU=0.50:0.95   |   area= medium  |   maxDets=100   |   0.486   |
-|-----------------------|:-------------------:|:-----------------:|:-----------------:|:-------------:|
 |     Average Recall    |   IoU=0.50:0.95   |   area=  large  |   maxDets=100   |   0.625   |
 
 ## Results
