@@ -1,0 +1,3 @@
+efficientnet_pytorch
+tensorboardX
+pycocotools
