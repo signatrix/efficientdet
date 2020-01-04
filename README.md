@@ -91,8 +91,8 @@ Some predictions are shown below:
 * **efficientnet_pytorch**
 
 ## References
-- tanmingxing, rpang, qvl, et al. "EfficientDet: Scalable and Efficient Object Detection." [EfficientDet](https://arxiv.org/abs/1911.09070).
-- We borrow some parts from [RetinaNet.Pytorch](https://github.com/yhenon/pytorch-retinanet)
+- Mingxing Tan, Ruoming Pang, Quoc V. Le. "EfficientDet: Scalable and Efficient Object Detection." [EfficientDet](https://arxiv.org/abs/1911.09070).
+- Our implementation borrows some parts from [RetinaNet.Pytorch](https://github.com/yhenon/pytorch-retinanet)
   
 
 ## Citation
