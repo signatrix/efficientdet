@@ -89,3 +89,17 @@ Some predictions are shown below:
 * **tensorboardX** (This library could be skipped if you do not use SummaryWriter)
 * **pycocotools**
 * **efficientnet_pytorch**
+
+## References
+- tanmingxing, rpang, qvl, et al. "EfficientDet: Scalable and Efficient Object Detection." [EfficientDet](https://arxiv.org/abs/1911.09070).
+- We borrow some parts from [RetinaNet.Pytorch](https://github.com/yhenon/pytorch-retinanet)
+  
+
+## Citation
+
+    @article{EfficientDetSignatrix,
+        Author = {Signatrix GmbH},
+        Title = {A Pytorch Implementation of EfficientDet Object Detection},
+        Journal = {https://github.com/signatrix/efficientdet},
+        Year = {2020}
+    }
