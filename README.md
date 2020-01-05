@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Here is our pytorch implementation of the model described in the paper **EfficientDet: Scalable and Efficient Object Detection** [paper](https://arxiv.org/abs/1911.09070). 
+Here is our pytorch implementation of the model described in the paper **EfficientDet: Scalable and Efficient Object Detection** [paper](https://arxiv.org/abs/1911.09070) (*Note*: We also provide pre-trained weights, which you could see at ./trained_models) 
 <p align="center">
   <img src="demo/video.gif"><br/>
   <i>An example of our model's output.</i>
