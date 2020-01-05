@@ -77,7 +77,7 @@ Some predictions are shown below:
 ## Requirements
 
 * **python 3.6**
-* **pytorch 0.4**
+* **pytorch 1.2**
 * **opencv (cv2)**
 * **tensorboard**
 * **tensorboardX** (This library could be skipped if you do not use SummaryWriter)
