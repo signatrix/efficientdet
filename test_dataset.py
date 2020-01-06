@@ -1,6 +1,3 @@
-"""
-@author: Viet Nguyen <vn@signatrix.com>
-"""
 import os
 import argparse
 import torch
