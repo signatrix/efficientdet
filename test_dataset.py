@@ -23,7 +23,7 @@ def get_args():
 
 
 def test(opt):
-    model = torch.load(opt.pretrained_model).module
+    model = torch.load(opt.pretrained_model)
     model.cuda()
     dataset = CocoDataset(opt.data_path, set='val2017', transform=transforms.Compose([Normalizer(), Resizer()]))
 
@@ -50,6 +50,10 @@ def test(opt):
                 pred_label = int(labels[box_id])
                 xmin, ymin, xmax, ymax = boxes[box_id, :]
                 color = colors[pred_label]
+                xmin = int(round(float(xmin), 0))
+                ymin = int(round(float(ymin), 0))
+                xmax = int(round(float(xmax), 0))
+                ymax = int(round(float(ymax), 0))
                 cv2.rectangle(output_image, (xmin, ymin), (xmax, ymax), color, 2)
                 text_size = cv2.getTextSize(COCO_CLASSES[pred_label] + ' : %.2f' % pred_prob, cv2.FONT_HERSHEY_PLAIN, 1, 1)[0]
 
